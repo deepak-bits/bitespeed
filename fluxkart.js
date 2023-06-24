@@ -196,7 +196,6 @@ app.post('/identify', (req, res) => {
                                             !emails.includes(email) && emails.push(email);
                                             !phoneNumbers.includes(phoneNumber) && phoneNumbers.push(phoneNumber);
                                             secondaryContactIds.push(result.insertId);
-                                            console.log("abra ka dabra");
                                             resolve();
                                         }
                                     );
@@ -208,20 +207,58 @@ app.post('/identify', (req, res) => {
                 } else {
                     // Create a new primary contact if no existing primary contact found
                     con.query(
-                        'INSERT INTO Contact (phoneNumber, email, linkedId, linkPrecedence) VALUES (?, ?, NULL, "primary")',
-                        [phoneNumber, email],
-                        (err, result) => {
-                            if (err) {
-                                console.error('Error creating new primary contact:', err);
-                                reject();
+                        'SELECT * FROM Contact WHERE email = ? AND phoneNumber = ? AND linkPrecedence = "secondary"',
+                        [email, phoneNumber],
+                        (err, results) => {
+                            if(err) {
+                                reject(err);
+                            } else {
+                                if(results.length > 0) {
+                                    primaryContactId = results[0].linkedId;
+                                    con.query(
+                                        'SELECT * FROM Contact WHERE id = ? AND linkPrecedence = "primary"',
+                                        [primaryContactId],
+                                        (err, rows) => {
+                                            if(err) {
+                                                reject(err);
+                                            } else {
+                                                
+                                                if(rows.length > 0) {
+                                                    !emails.includes(rows[0].email) && emails.push(rows[0].email);
+                                                    // console.log(emails);
+                                                    !phoneNumbers.includes(rows[0].phoneNumber) && phoneNumbers.push(rows[0].phoneNumber);
+                                                }
+
+                                                !emails.includes(results[0].email) && emails.push(results[0].email);
+                                                !phoneNumbers.includes(results[0].phoneNumber) && phoneNumbers.push(results[0].phoneNumber);
+                                                secondaryContactIds.push(results[0].id);
+                                                resolve();
+                                            }
+                                        }
+                                    )
+                                    
+                                } else {
+                                    con.query(
+                                        'INSERT INTO Contact (phoneNumber, email, linkedId, linkPrecedence) VALUES (?, ?, NULL, "primary")',
+                                        [phoneNumber, email],
+                                        (err, result) => {
+                                            if (err) {
+                                                console.error('Error creating new primary contact:', err);
+                                                reject();
+                                            }
+                    
+                                            primaryContactId = result.insertId;
+                                            !emails.includes(email) && emails.push(email);
+                                            !phoneNumbers.includes(phoneNumber) && phoneNumbers.push(phoneNumber);
+                                            resolve();
+                                        }
+                                    );
+                                }
                             }
-    
-                            primaryContactId = result.insertId;
-                            !emails.includes(email) && emails.push(email);
-                            !phoneNumbers.includes(phoneNumber) && phoneNumbers.push(phoneNumber);
-                            resolve();
                         }
-                    );
+                    )
+
+                    
                 }
             }     
             
