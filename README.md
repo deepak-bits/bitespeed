@@ -38,3 +38,5 @@
 &nbsp;
 \
 &nbsp;
+### Contact Table after all these operations
+![Screenshot 2023-06-24 at 16 45 40](https://github.com/deepak-bits/bitespeed/assets/40654292/0fcbc795-fd70-4d92-9897-248cc578324b)
