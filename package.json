@@ -4,7 +4,7 @@
   "description": "",
   "main": "fluxkart.js",
   "scripts": {
-    "dev": "nodemon ./bitespeed.js"
+    "dev": "nodemon ./fluxkart.js"
   },
   "repository": {
     "type": "git",
