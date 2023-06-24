@@ -1,4 +1,6 @@
 # bitespeed backend assignment
+
+## Used Node.js along with JavaScript
 ![Screenshot 2023-06-24 at 15 21 42](https://github.com/deepak-bits/bitespeed/assets/40654292/4f039c1c-7b38-4986-9498-b1b6c4505aad)
 ![Screenshot 2023-06-24 at 15 22 10](https://github.com/deepak-bits/bitespeed/assets/40654292/0db0fe46-4298-4f37-a7bb-59408979adc6)
 ![Screenshot 2023-06-24 at 15 22 45](https://github.com/deepak-bits/bitespeed/assets/40654292/3462d808-6491-4571-80bc-c7db0dc19f82)
