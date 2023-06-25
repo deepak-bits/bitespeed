@@ -6,19 +6,19 @@ const app = express();
 app.use(express.json());
 
 // Create connection
-const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'fluxKartDb'
-});
-
 // const con = mysql.createConnection({
-//     host: 'sql12.freesqldatabase.com',
-//     user: 'sql12628584',
-//     password: 'NgGAAUVzLk',
-//     database: 'sql12628584'
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'fluxKartDb'
 // });
+
+const con = mysql.createConnection({
+    host: 'sql12.freesqldatabase.com',
+    user: 'sql12628584',
+    password: 'NgGAAUVzLk',
+    database: 'sql12628584'
+});
 
 // Connect
 con.connect((err) => {
