@@ -31,9 +31,9 @@ con.connect((err) => {
             email VARCHAR(255),
             linkedId INT,
             linkPrecedence ENUM("secondary", "primary"),
-            createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-            updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-            deletedAt DATETIME
+            createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            deletedAt TIMESTAMP
         )
     `;
 
