@@ -1,16 +1,23 @@
 const express = require('express');
 const mysql = require('mysql2');
-const PORT = process.env.PORT || 3306;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 app.use(express.json());
 
 // Create connection
+// const con = mysql.createConnection({
+//     host: 'localhost',
+//     user: 'root',
+//     password: '',
+//     database: 'fluxKartDb'
+// });
+
 const con = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'fluxKartDb'
+    host: 'sql12.freesqldatabase.com',
+    user: 'sql12628584',
+    password: 'NgGAAUVzLk',
+    database: 'sql12628584'
 });
 
 // Connect
