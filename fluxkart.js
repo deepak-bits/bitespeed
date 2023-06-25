@@ -6,19 +6,19 @@ const app = express();
 app.use(express.json());
 
 // Create connection
-// const con = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root',
-//     password: '',
-//     database: 'fluxKartDb'
-// });
-
 const con = mysql.createConnection({
-    host: 'sql12.freesqldatabase.com',
-    user: 'sql12628584',
-    password: 'NgGAAUVzLk',
-    database: 'sql12628584'
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'fluxKartDb'
 });
+
+// const con = mysql.createConnection({
+//     host: 'sql12.freesqldatabase.com',
+//     user: 'sql12628584',
+//     password: 'NgGAAUVzLk',
+//     database: 'sql12628584'
+// });
 
 // Connect
 con.connect((err) => {
@@ -32,7 +32,7 @@ con.connect((err) => {
             linkedId INT,
             linkPrecedence ENUM("secondary", "primary"),
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updatedAt TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            updatedAt TIMESTAMP NOT NULL,
             deletedAt TIMESTAMP
         )
     `;
@@ -122,7 +122,7 @@ app.post('/identify', (req, res) => {
                     if(time1.getTime() < time2.getTime()) {
                         // email object was added earlier
                         con.query(
-                            'UPDATE Contact SET linkPrecedence = "secondary", linkedId = ? WHERE id = ?',
+                            'UPDATE Contact SET linkPrecedence = "secondary", linkedId = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = ?',
                             [emailObj.id, phoneNumberObj.id],
                             (err, rows) => {
                                 if (err) {
@@ -141,7 +141,7 @@ app.post('/identify', (req, res) => {
                     } else {
                         // phoneNumber object was added earlier
                         con.query(
-                            'UPDATE Contact SET linkPrecedence = "secondary", linkedId = ? WHERE id = ?',
+                            'UPDATE Contact SET linkPrecedence = "secondary", linkedId = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = ?',
                             [phoneNumberObj.id, email.id],
                             (err, rows) => {
                                 if (err) {
@@ -193,7 +193,7 @@ app.post('/identify', (req, res) => {
                                     resolve();
                                 } else {
                                     con.query(
-                                        'INSERT INTO Contact (phoneNumber, email, linkedId, linkPrecedence) VALUES (?, ?, ?, "secondary")',
+                                        'INSERT INTO Contact (phoneNumber, email, linkedId, linkPrecedence, updatedAt) VALUES (?, ?, ?, "secondary", CURRENT_TIMESTAMP)',
                                         [phoneNumber, email, primaryContactId],
                                         (err, result) => {
                                             if (err) {
@@ -247,7 +247,7 @@ app.post('/identify', (req, res) => {
                                     
                                 } else {
                                     con.query(
-                                        'INSERT INTO Contact (phoneNumber, email, linkedId, linkPrecedence) VALUES (?, ?, NULL, "primary")',
+                                        'INSERT INTO Contact (phoneNumber, email, linkedId, linkPrecedence, updatedAt) VALUES (?, ?, NULL, "primary", CURRENT_TIMESTAMP)',
                                         [phoneNumber, email],
                                         (err, result) => {
                                             if (err) {
