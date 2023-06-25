@@ -32,7 +32,7 @@ con.connect((err) => {
             linkedId INT,
             linkPrecedence ENUM("secondary", "primary"),
             createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updatedAt TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             deletedAt TIMESTAMP
         )
     `;
